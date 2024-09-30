@@ -1,0 +1,24 @@
+Recursividade 
+
+#include <iostream>
+using namespace std;
+
+// Função recursiva para calcular a somatória de 1 até N
+int somatoria(int n) {
+    if (n == 1) {               // Condição de parada
+        return 1;               // Quando N for 1, a função retorna 1 e para a recursão
+    } else {                    
+        return n + somatoria(n - 1);  // Chamada recursiva: adiciona N à somatória de (N-1)
+    }
+}
+
+int main() {
+    int n;
+    cout << "Digite um número N: ";  // Pede ao usuário para inserir um número
+    cin >> n;                        // Lê o valor de N do teclado
+
+    // Chama a função recursiva e exibe o resultado
+    cout << "A somatória de 1 até " << n << " é: " << somatoria(n) << endl;
+
+    return 0;
+}
