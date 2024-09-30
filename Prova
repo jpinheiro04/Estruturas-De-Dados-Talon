@@ -212,17 +212,114 @@ Média: O(log n)
 A busca binária é muito mais eficiente em dados ordenados devido à sua complexidade logarítmica, 
 enquanto as buscas lineares são menos eficientes, especialmente em vetores grandes.
 ------------------------------------------------------------------------------------------------------------------------
+Pilha
+
+int retiraPilha(TPilha *p, int qual, TInfo *var) {
+    if (qual == 1) {  // Operar sobre a pilha 1
+        if (p->topo1 == 0) {  // Verifica se a pilha 1 está vazia
+            return 0;  // Não é possível retirar, pilha vazia
+        } else {
+            *var = p->elem[p->topo1-1];  // Armazena o valor retirado
+            p->topo1 = p->topo1 - 1;  // Atualiza o topo da pilha 1
+            return 1;  // Sucesso na remoção
+        }
+    } else {  // Operar sobre a pilha 2
+        if (p->topo2 == MAX + 1) {  // Verifica se a pilha 2 está vazia
+            return 0;  // Não é possível retirar, pilha vazia
+        } else {
+            *var = p->elem[p->topo2];  // Armazena o valor retirado
+            p->topo2 = p->topo2 + 1;  // Atualiza o topo da pilha 2
+            return 1;  // Sucesso na remoção
+        }
+    }
+}
+------------------------------------------------------------------------------------------------------------------------
+Fila 
+
+#include <iostream>
+using namespace std;
+
+#define MAXELEM 5
+typedef int TInfo;
+
+// Estrutura da fila
+typedef struct TFila {
+    TInfo elem[MAXELEM];  // Vetor que armazena os elementos da fila
+    int fim;              // Índice do fim da fila
+} TFila;
+
+// Inicializa a fila
+void iniciaFila(TFila *f) {
+    f->fim = 0;  // A fila começa vazia, então o índice do fim é 0
+}
+
+// Insere um elemento na fila
+int insereFila(TFila *f, TInfo var) {
+    if (f->fim == MAXELEM) {  // Verifica se a fila está cheia
+        return 0;             // Retorna 0 se a fila estiver cheia
+    } else {
+        f->elem[f->fim] = var;  // Adiciona o elemento no final da fila
+        f->fim++;               // Incrementa o índice do fim
+        return 1;               // Retorna 1 indicando sucesso
+    }
+}
+
+// Remove um elemento da fila e faz o deslocamento dos elementos
+int retiraFila(TFila *f, TInfo *var) {
+    if (f->fim == 0) {  // Verifica se a fila está vazia
+        return 0;       // Retorna 0 se a fila estiver vazia
+    } else {
+        *var = f->elem[0];  // Remove o primeiro elemento (no início da fila)
+
+        // Desloca os elementos para a esquerda
+        for (int i = 1; i < f->fim; i++) {
+            f->elem[i-1] = f->elem[i];
+        }
+
+        f->fim--;  // Decrementa o índice do fim
+        return 1;  // Retorna 1 indicando sucesso
+    }
+}
+
+int main() {
+    TFila fila;  // Declaração da fila
+    TInfo v;     // Variável para armazenar o elemento retirado
+
+    // Inicializa a fila
+    iniciaFila(&fila);
+
+    // Insere alguns elementos na fila
+    if (insereFila(&fila, 10)) cout << "Valor inserido: 10" << endl;
+    if (insereFila(&fila, 20)) cout << "Valor inserido: 20" << endl;
+    if (insereFila(&fila, 30)) cout << "Valor inserido: 30" << endl;
+
+    // Remove o primeiro elemento
+    if (retiraFila(&fila, &v)) cout << "Valor retirado: " << v << endl;
+
+    // Remove o próximo elemento
+    if (retiraFila(&fila, &v)) cout << "Valor retirado: " << v << endl;
+
+    // Insere mais elementos
+    if (insereFila(&fila, 40)) cout << "Valor inserido: 40" << endl;
+    if (insereFila(&fila, 50)) cout << "Valor inserido: 50" << endl;
+
+    // Remove outro elemento
+    if (retiraFila(&fila, &v)) cout << "Valor retirado: " << v << endl;
+
+    return 0;
+}
 
 ------------------------------------------------------------------------------------------------------------------------
+Fila
 
-------------------------------------------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------------------------------------------
-
+int retiraFila(TFila *f, TInfo *var) {
+    if (f->quantidade == 0) {  // Verifica se a fila está vazia (UNDERFLOW)
+        return 0;  // Retorna 0 indicando que a fila está vazia
+    } else {
+        *var = f->elem[f->inicio - 1];  // Remove o elemento na posição 'início'
+        f->inicio = (f->inicio % MAXELEM) + 1;  // Atualiza o índice do início para o próximo
+        f->quantidade--;  // Decrementa a quantidade de elementos na fila
+        return 1;  // Retorna 1 indicando sucesso na remoção
+    }
+}
 ------------------------------------------------------------------------------------------------------------------------
